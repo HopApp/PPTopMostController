@@ -34,9 +34,11 @@
     UIViewController *oldTopController = nil;
     
     // Loop them all
-    while ([topController conformsToProtocol:@protocol(PPTopMostControllerProtocol)] && oldTopController != topController) {
+    while (oldTopController != topController) {
         oldTopController = topController;
-        topController = [(UIViewController < PPTopMostControllerProtocol > *) topController visibleViewController];
+        if([topController conformsToProtocol:@protocol(PPTopMostControllerProtocol)]){
+    	    topController = [(UIViewController < PPTopMostControllerProtocol > *) topController visibleViewController];
+    	}
         // Again, check for any modal controller
         topController = [self getModalViewControllerOfControllerIfExists:topController];
     }
